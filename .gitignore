@@ -1,0 +1,5 @@
+# OS files and folders
+/.DS_STORE
+/.idea
+/.vscode
+/nbproject

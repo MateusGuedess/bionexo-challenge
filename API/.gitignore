@@ -3,3 +3,9 @@
 /app
 /coverage
 /node_modules
+
+# OS files and folders
+/.DS_STORE
+/.idea
+/.vscode
+/nbproject
