@@ -1,0 +1,46 @@
+{
+    "name": "bionexo-challenge",
+    "version": "1.0.0",
+    "author": {
+        "name": "Vinicius Guedes",
+        "email": "viniciusgued@gmail.com",
+        "url": "https://vinyguedess.github.io"
+    },
+    "dependencies": {
+        "babel-polyfill": "^6.26.0",
+        "mysql": "^2.15.0",
+        "mysql2": "^1.5.2",
+        "sequelize": "^4.33.4"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.26.0",
+        "babel-core": "^6.26.0",
+        "babel-plugin-istanbul": "^4.1.5",
+        "babel-preset-env": "^1.6.1",
+        "babel-register": "^6.26.0",
+        "chai": "^4.1.2",
+        "express": "^4.16.2",
+        "mocha": "^5.0.1",
+        "nyc": "^11.5.0",
+        "request": "^2.83.0"
+    },
+    "nyc": {
+        "exclude": [
+            "app"
+        ],
+        "instrument": false,
+        "require": [
+            "babel-register",
+            "babel-polyfill"
+        ],
+        "reporter": [
+            "lcov",
+            "text"
+        ],
+        "sourceMap": true
+    },
+    "scripts": {
+        "build": "./node_modules/.bin/babel src -d app",
+        "test": "./node_modules/.bin/nyc ./node_modules/mocha/bin/_mocha"
+    }
+}
