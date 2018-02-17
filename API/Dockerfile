@@ -15,11 +15,14 @@ RUN mkdir -p /var/bionexo-api
 WORKDIR /var/bionexo-api
 COPY src src
 COPY test test
-COPY .babelrc package.json package-lock.json server.js ./
+COPY .babelrc package.json package-lock.json server.js .env.default ./
 
 # Installing everything
 RUN npm install
 RUN npm run build
+
+# Prepares .env file before lifting off
+RUN mv .env.default .env
 
 EXPOSE 3000
 CMD ["npm", "run", "start"]
