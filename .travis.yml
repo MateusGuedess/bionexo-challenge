@@ -1,7 +1,14 @@
 language: node_js
 node_js:
   - "7"
+services:
+  - mysql
 env:
-  - TEST_DIR=API
+  - TEST_DIR=API DB_HOST=127.0.0.1 DB_NAME=bionexo DB_USER=root DB_PASS=
 
-script: cd $TEST_DIR && npm install && npm run build && npm test
+before_install:
+  - mysql -e 'CREATE DATABASE $DB_NAME'
+
+install: cd $TEST_DIR && npm install
+
+before_script: npm run build
