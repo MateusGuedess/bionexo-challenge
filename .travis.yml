@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "7"
+env:
+  - TEST_DIR=API
+
+script: cd $TEST_DIR && npm install && npm run build && npm test
