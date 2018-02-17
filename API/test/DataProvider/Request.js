@@ -1,12 +1,36 @@
-import * as request from 'request';
+import request from 'request';
 
 
 export const get = (route, params = {}) =>
-    resolveRequest(request.get(route));
+    resolveRequest(request({
+        'method': 'GET',
+        'url': parseUrl(route, params),
+        'timeout': 5000
+    }));
 
 
 export const post = (route, params, body) =>
-    resolveRequest(request.post(route));
+    resolveRequest(request({
+        'method': 'POST',
+        'url': parseUrl(route, params),
+        'body': JSON.stringify(body),
+        'headers': {
+            'content-type': 'application/json; charset=utf-8'
+        },
+        'timeout': 5000
+    }));
+
+
+const parseUrl = (route, params) =>
+{
+    let parsedParams = "";
+    if (params);
+        parsedParams = Object.keys(params).map(param => {
+            return `${param}=${params[params]}`
+        }).join('&');
+
+    return route + (parsedParams.length > 0 ? `?${parsedParams}` : '');
+}
 
 
 const resolveRequest = httpRequest =>

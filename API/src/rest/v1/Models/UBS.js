@@ -1,20 +1,25 @@
-import { database } from "../../../Config/database";
+import Sequelize from 'sequelize';
+import { sequelize } from "../../../Config/database";
 
 
-export const UBS = database.sequelize.define('ubs', {
+export const UBS = sequelize.define('ubs', {
     'id': {
-        'type': database.Sequelize.UUID,
+        'type': Sequelize.INTEGER,
         'primaryKey': true,
-        'defaultValue': database.Sequelize.UUIDV4
+        'autoIncrement': true
     },
-    'name': database.Sequelize.STRING,
-    'address': database.Sequelize.STRING,
-    'city': database.Sequelize.STRING,
-    'phone': database.Sequelize.STRING,
-    'geocode_lat': database.Sequelize.INTEGER,
-    'geocode_lon': database.Sequelize.INTEGER,
-    'score_size': database.Sequelize.ENUM(1, 2, 3),
-    'score_adaptation_for_seniors': database.Sequelize.ENUM(1, 2, 3),
-    'score_medical_equipment': database.Sequelize.ENUM(1, 2, 3),
-    'score_medicine': database.Sequelize.ENUM(1, 2, 3)
+    'name': { 'type': Sequelize.STRING, 'allowNull': false },
+    'address': { 'type': Sequelize.STRING, 'allowNull': false },
+    'city': { 'type': Sequelize.STRING, 'allowNull': false },
+    'phone': { 'type': Sequelize.STRING, 'allowNull': false },
+    'geocode_lat': { 'type': Sequelize.STRING, 'allowNull': false },
+    'geocode_lon': { 'type': Sequelize.STRING, 'allowNull': false },
+    'score_size': { 'type': Sequelize.ENUM(1, 2, 3), 'allowNull': false },
+    'score_adaptation_for_seniors': { 'type': Sequelize.ENUM(1, 2, 3), 'allowNull': false },
+    'score_medical_equipment': { 'type': Sequelize.ENUM(1, 2, 3), 'allowNull': false },
+    'score_medicine': { 'type': Sequelize.ENUM(1, 2, 3), 'allowNull': false }
+}, {
+    'createdAt': false,
+    'updatedAt': false,
+    'deletedAt': false
 });

@@ -1,11 +1,13 @@
+import dotenv from 'dotenv';
 import Sequelize from 'sequelize';
 
-const sequelize = new Sequelize('bionexo', 'root', 'n0_n33d_f0r_s3cur1ty', {
-    'host': '127.0.0.1',
+
+// Load .env file variables
+dotenv.config();
+
+
+let { DB_HOST, DB_NAME, DB_USER, DB_PASS } = process.env;
+export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+    'host': DB_HOST,
     'dialect': 'mysql'
 });
-
-export const database = {
-    sequelize,
-    Sequelize
-}
