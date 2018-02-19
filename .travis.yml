@@ -6,9 +6,10 @@ services:
 env:
   - TEST_DIR=API DB_HOST=127.0.0.1 DB_NAME=bionexo DB_USER=root DB_PASS=
 
-before_install:
-  - mysql -e 'CREATE DATABASE $DB_NAME'
+before_install: cd $TEST_DIR && bash ./prepare_for_test.sh
 
-install: cd $TEST_DIR && npm install
+install: npm install
 
-before_script: npm run build
+before_script: ls && npm run build
+
+script: npm run test
