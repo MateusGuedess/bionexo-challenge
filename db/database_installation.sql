@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS $DB_NAME;
+CREATE SCHEMA IF NOT EXISTS `bionexo`;
 
-CREATE TABLE IF NOT EXISTS $DB_NAME.`ubs` (
+CREATE TABLE IF NOT EXISTS `bionexo`.`ubs` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(100) NOT NULL,
     `address` varchar(100) NOT NULL,
