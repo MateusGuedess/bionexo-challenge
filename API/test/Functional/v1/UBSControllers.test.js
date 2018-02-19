@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as Request from './../../DataProvider/Request';
+import { RandomUBSFromCSVFile, RandomCSVFile } from '../../DataProvider/Generator';
 import { app } from '../../../app/bootstrap';
 import * as ConverterService from './../../../app/Services/ConverterService';
 
@@ -13,31 +14,47 @@ describe('Functional/v1/UBSControllersTest', function ()
     _this.timeout(5000);
     before(() => _this.server = app.listen(PORT));
 
+    describe('Syncing UBSes', () => 
+    {
+        it('Should upload a CSV file', done => 
+        {
+            RandomCSVFile(3)
+                .then(ubses => {
+                    return Request.post(`http://127.0.0.1:${PORT}/v1/ubs/sync`, {}, {
+                        'media': new Buffer(ubses).toString('base64')
+                    })
+                    .then(httpResponse => {
+                        let content = httpResponse.getContent();
+                        expect(content.status).to.be.true;
+                        expect(content.data).to.have.property('ubses');
+                        expect(content.data.ubses).to.be.an('Array');
+                        expect(httpResponse.getStatusCode()).to.be.equal(200);
+                    });
+                })
+                .then(() => done());
+        });
+
+        it('Should present error if missing media field', done => 
+        {
+            RandomCSVFile(2)
+                .then(ubses => {
+                    return Request.post(`http://127.0.0.1:${PORT}/v1/ubs/sync`, {}, {})
+                    .then(httpResponse => {
+                        let content = httpResponse.getContent();
+                        expect(content.status).to.be.false;
+                        expect(httpResponse.getStatusCode()).to.be.equal(403);
+                    });
+                })
+                .then(() => done());
+        });
+    });
+
     describe('Inserting UBSes', () => 
     {
         it('Should insert an UBS', done => 
         {
-            let parser = value => {
-                if (value.indexOf('muito acima da m') >= 0)
-                    return 3;
-
-                if (value.indexOf('nho acima da m') >= 0)
-                    return 2;
-
-                if (value.indexOf('mediano') >= 0)
-                    return 1;
-
-                return 0;
-            }
-
-            ConverterService.CSVToJson(process.cwd() + '/test/DataProvider/resources/ubs.csv', [
-                'geocode_lat', 'geocode_lon', null, null, 'name', 'address', 'address', 'city', 'phone', 
-                { 'name': 'score_size', parser }, { 'name': 'score_adaptation_for_seniors', parser }, 
-                { 'name': 'score_medical_equipment', parser }, { 'name': 'score_medicine', parser }
-            ])
-                .then(parsedCSV => {
-                    let ubs = parsedCSV[Math.floor(Math.random() * parsedCSV.length)];
-                    
+            RandomUBSFromCSVFile()
+                .then(ubs => {                    
                     return Request.post(`http://127.0.0.1:${PORT}/v1/ubs`, {}, {
                         ubs
                     })

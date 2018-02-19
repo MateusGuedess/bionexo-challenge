@@ -12,7 +12,29 @@ exports.CSVToJson = (csvfile, customDictionary) =>
         }).then(csvContent => exports.CSVToJson(csvContent, customDictionary));
 
     csvfile = csvfile.split('\n');
-    let dictionary = customDictionary ? customDictionary : csvfile[0].split(',');
+    let dictionary = customDictionary;
+    if (!dictionary) {
+        let parser = value => {
+            if (typeof value === 'number' || !isNaN(value)) {
+                
+                return value;
+            }
+
+            if (value.indexOf('muito acima da m') >= 0)
+                return 3;
+    
+            if (value.indexOf('nho acima da m') >= 0)
+                return 2;
+    
+            return 1;
+        }
+
+        dictionary = [
+            'geocode_lat', 'geocode_lon', 'code_city', 'code_cnes', 'name', 'address', 'district', 'city', 'phone', 
+            { 'name': 'score_size', parser }, { 'name': 'score_adaptation_for_seniors', parser }, 
+            { 'name': 'score_medical_equipment', parser }, { 'name': 'score_medicine', parser }
+        ];
+    }
 
     return csvfile.filter((row, index) => index > 0)
         .map(item => {

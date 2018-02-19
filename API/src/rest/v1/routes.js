@@ -1,8 +1,36 @@
 import { Router } from 'express';  
 import { UBS } from './Models/UBS';
+import { CSVToJson } from './../../Services/ConverterService';
 
 
 export const router = Router();
+
+router.post('/ubs/sync', async (request, response) => 
+{
+    let { media } = request.body;
+    if (!media)
+        return response.status(403).json({
+            'status': false,
+            'errors': [ 'Necessary pass a media field with buffered CSV file' ]
+        });
+
+    let ubses = await Promise.all(
+        CSVToJson(new Buffer(media, 'base64').toString('utf8'))
+            .map(ubs => UBS.findCreateFind({
+                'where': {
+                    'name': ubs.name,
+                    'geocode_lat': ubs.geocode_lat,
+                    'geocode_lon': ubs.geocode_lon
+                },
+                'defaults': ubs
+            }).then(([ubs, response]) => ubs.dataValues))
+    );    
+
+    response.status(200).json({
+        'status': true,
+        'data': { ubses }
+    })
+});
 
 router.post('/ubs', (request, response) => 
 {
