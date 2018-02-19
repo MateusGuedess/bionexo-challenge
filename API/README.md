@@ -9,6 +9,7 @@
 | Método HTTP | Rota | Descrição |
 | ----------- | ---- | --------- |
 | **POST** | /v1/ubs/sync | Upload de arquivo CSV com informações das UBS's. |
+| **POST** | /v1/ubs | Registra uma única UBS |
 | **GET** | /v1/ubs | Permite a listagem de UBS's registradas. |
 | **GET** | /v1/ubs/<id> | Permite a exibição de informações de uma única UBS. |
 

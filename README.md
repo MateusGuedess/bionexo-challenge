@@ -4,6 +4,7 @@
 Desafio Bionexo para implementação de uma API e um cliente consumidor.
 
 * [Challenge](/Challenge/Challenge.MD)
+* [API](/API/README.md)
 
 ## Executando
 Necessário instalar o docker e docker-compose para executar "facilmente" a aplicação
