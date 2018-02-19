@@ -1,6 +1,4 @@
-CREATE DATABASE bionexo;
-
-CREATE TABLE `bionexo`.`ubs` (
+CREATE TABLE IF NOT EXISTS `bionexo`.`ubs` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(100) NOT NULL,
     `address` varchar(100) NOT NULL,

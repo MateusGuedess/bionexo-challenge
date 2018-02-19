@@ -49,6 +49,7 @@
     },
     "scripts": {
         "build": "./node_modules/.bin/babel src -d app",
-        "test": "./node_modules/.bin/nyc ./node_modules/mocha/bin/_mocha --exit"
+        "test": "./node_modules/.bin/nyc ./node_modules/mocha/bin/_mocha --exit",
+        "start": "./node_modules/.bin/babel-node server.js"
     }
 }

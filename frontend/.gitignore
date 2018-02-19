@@ -1,0 +1,8 @@
+# App files and folders
+/build
+/coverage
+/node_modules
+/src/assets/css
+
+# OS and IDE files and folders
+.DS_Store
