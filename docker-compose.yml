@@ -1,14 +1,5 @@
 version: '3'
 services:
-  api:
-    depends_on:
-      - db
-    build:
-      context: ./api
-      dockerfile: ./Dockerfile
-    ports:
-      - "3000:3000"
-  
   db:
     build: ./db
     ports:
@@ -18,3 +9,25 @@ services:
       MYSQL_ROOT_PASSWORD: bionexopass
       MYSQL_USER: bionexo
       MYSQL_PASS: bionexopass
+
+  api:
+    depends_on:
+      - db
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    links:
+      - db
+
+  client:
+    depends_on:
+      - api
+    build: ./frontend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./frontend:/code
+    links:
+      - api

@@ -1,7 +1,8 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 
-  
+
+console.log(process.env);
 export const GoogleMaps = () => (    
     <div style={{ width: '100%', height: '100vh' }}>
         <GoogleMapReact
