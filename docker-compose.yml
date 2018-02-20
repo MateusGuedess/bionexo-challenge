@@ -1,19 +1,20 @@
 version: '3'
 services:
   api:
+    depends_on:
+      - db
     build:
-      context: ./API
+      context: ./api
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
   
   db:
-    image: mysql:5.7
-    restart: 'always'
+    build: ./db
     ports:
       - '3306:3306'
     environment: 
       MYSQL_DATABASE: bionexo
-      MYSQL_ALLOW_EMPTY_PASSWORD: true 
+      MYSQL_ROOT_PASSWORD: bionexopass
       MYSQL_USER: bionexo
-      MYSQL_PASSWORD: n0_n33d_f0r_s3cur1ty
+      MYSQL_PASS: bionexopass
