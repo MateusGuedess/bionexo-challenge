@@ -4,7 +4,7 @@ node_js:
 services:
   - mysql
 env:
-  - TEST_DIR=API DB_HOST=127.0.0.1 DB_NAME=bionexo DB_USER=root DB_PASS=
+  - TEST_DIR=api DB_HOST=127.0.0.1 DB_NAME=bionexo DB_USER=root DB_PASS=
 
 before_install: cd $TEST_DIR && bash ./prepare_for_test.sh
 
