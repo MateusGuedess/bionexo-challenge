@@ -15,7 +15,7 @@ export const Body = () =>
 );
 
 
-const Header = () =>
+export const Header = () =>
 (
     <div className="header">
         <div className="logo">
@@ -25,7 +25,7 @@ const Header = () =>
 );
 
 
-const Content = () =>
+export const Content = () =>
 (
     <div className="content">
         <Dashboard />

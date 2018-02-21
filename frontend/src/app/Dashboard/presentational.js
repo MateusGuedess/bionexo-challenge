@@ -11,7 +11,7 @@ export const Dashboard = props => (
     </div>
 );
 
-const BoardPanel = props =>
+export const BoardPanel = props =>
 (
     <div className="dashboard-board-panel container">
         <div className="row">
@@ -28,7 +28,7 @@ const BoardPanel = props =>
 );
 
 
-const BoardPanelUploader = props =>
+export const BoardPanelUploader = props =>
 (
     <div>
         <form onSubmit={e => { props.syncCSV(props.googlemaps.syncFile); e.preventDefault(); }}>
@@ -63,7 +63,7 @@ const BoardPanelUploader = props =>
 );
 
 
-const BoardPanelList = props =>
+export const BoardPanelList = props =>
 (
     <ul>
         {
@@ -80,17 +80,17 @@ const BoardPanelList = props =>
 );
 
 
-const BoardPanelListItem = ubs =>
+export const BoardPanelListItem = ubs =>
 (
     <li>
-        <h5><small>{ ubs.id }</small> { ubs.name && ubs.name.length > 20 ? `${ubs.name.substr(0, 20)}...` : ubs.name }</h5>
+        <h5><small>{ ubs.id }</small> { ubs.name.length > 20 ? `${ubs.name.substr(0, 20)}...` : ubs.name }</h5>
         <p><b>Address</b> { ubs.address }. { ubs.city }</p>
         <p><b>Phone</b> { ubs.phone }</p>
     </li>
 );
 
 
-const GoogleMaps = props =>
+export const GoogleMaps = props =>
 (
     <GoogleMapReact
         center={{ 
@@ -117,7 +117,7 @@ const GoogleMaps = props =>
 );
 
 
-const Marker = ({ text }) =>
+export const Marker = ({ text }) =>
 (
     <div className="google-maps-marker">
         { text }
