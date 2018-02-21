@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Dashboard as Component } from './presentational';
-import { fetchUBSes, selectUBSCSVFile, syncUBSes } from './actions';
+import { fetchUBSes, selectUBSCSVFile, syncUBSes, checkProcess } from './actions';
 
 
 export const mapStateToProps = state =>
@@ -12,6 +12,8 @@ export const mapStateToProps = state =>
 
 export const mapDispatchToProps = dispatch =>
 {
+
+    dispatch(checkProcess());
     return {
         'fetchUBSByBoundaries': boundaries => dispatch(fetchUBSes(boundaries)),
         

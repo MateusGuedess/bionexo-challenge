@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { REQUEST_UBSES, RECEIVE_UBSES, SELECT_UBS_CSV_FILE, SYNCING_UBSES, SYNCED_UBSES } from './actions';
+import { REQUEST_UBSES, RECEIVE_UBSES, SELECT_UBS_CSV_FILE, SYNCING_UBSES, SYNCED_UBSES, RECEIVE_REMAINING_PROCESS } from './actions';
 
 
-const googlemaps = (state, action) =>
+const googlemaps = (state = {}, action) =>
 {
     switch(action.type) {
         case REQUEST_UBSES:
@@ -12,6 +12,7 @@ const googlemaps = (state, action) =>
             }
         case RECEIVE_UBSES:
             return {
+                ...state,
                 'isFetching': false,
                 'data': action.data
             }
@@ -33,8 +34,14 @@ const googlemaps = (state, action) =>
                 'syncFile': null,
                 'syncEnabled': false
             }
+        case RECEIVE_REMAINING_PROCESS:
+            return {
+                ...state,
+                'processRemaining': action.total
+            }
         default: 
             return {
+                ...state,
                 'syncEnabled': false,
                 'syncFile': null,
                 'isSyncing': false,

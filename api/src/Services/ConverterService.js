@@ -15,9 +15,9 @@ exports.CSVToJson = (csvfile, customDictionary) =>
     let dictionary = customDictionary;
     if (!dictionary) {
         let parser = value => {
-            if (typeof value === 'number' || !isNaN(value)) {
-                
-                return value;
+            if (typeof value === 'number' || !isNaN(value)) {            
+                if (value <= 3 || parseInt(value) <= 3)
+                    return value;
             }
 
             if (value.indexOf('muito acima da m') >= 0)

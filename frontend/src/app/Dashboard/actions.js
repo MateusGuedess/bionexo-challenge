@@ -14,9 +14,8 @@ export const syncUBSes = media =>
             'url': `${API}/v1/ubs/sync`,
             'data': { media },
             'timetout': 1000 * 60 * 5,
-            'onUploadProgress': progress => 
-            {
-                console.log(progress);
+            'onUploadProgress': progress => {
+                dispatch(checkProcess());
             }
         })
         .then(response => {
@@ -50,6 +49,40 @@ export const selectUBSCSVFile = content =>
     return {
         'type': SELECT_UBS_CSV_FILE,
         content
+    }
+}
+
+
+export const CHECK_PROCESS = 'CHECK_PROCESS';
+export const checkProcess = () =>
+{
+    return dispatch => axios.get(`${API}/v1/ubs/sync/process`)
+        .then(response => {
+            if (response.data.status) {
+                dispatch(receiveRemainingProcess(response.data.data.total));
+
+                if (response.data.data.total > 0)
+                    dispatch(processUBS());
+            }
+        });
+}
+
+
+export const RECEIVE_REMAINING_PROCESS = 'RECEIVE_REMAINING_PROCESS';
+const receiveRemainingProcess = total =>
+{
+    return { 'type': RECEIVE_REMAINING_PROCESS, total }
+}
+
+
+export const PROCESS_UBS = 'PROCESS_UBS';
+const processUBS = () =>
+{
+    return dispatch => {
+        axios.post(`${API}/v1/ubs/sync/process`)
+            .then(response => {
+                dispatch(checkProcess());
+            });
     }
 }
 

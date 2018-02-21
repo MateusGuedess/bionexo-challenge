@@ -4,6 +4,7 @@
 /app
 /coverage
 /node_modules
+/storage/*.csv
 
 # OS files and folders
 /.DS_STORE

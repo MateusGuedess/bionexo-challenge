@@ -15,7 +15,10 @@ export const syncCSVAction = async (request, response, next) =>
         
     let ubses = CSVToJson(new Buffer(media, 'base64').toString('utf8'));
     while(ubses.length > 0)
-        fs.writeFile(`${process.cwd()}/storage/${new Date().getTime()}.csv`, JSONToCSV(ubses.splice(0, 100)));
+        fs.writeFileSync(
+            `${process.cwd()}/storage/${ubses.length}-${new Date().getTime()}.csv`, 
+            JSONToCSV(ubses.splice(0, 100))
+        );
         
     response.status(200).json({
         'status': true
@@ -40,7 +43,7 @@ export const processCSVs = async (request, response) =>
     
     if (total > 0) {
         let slice = ubsFilesParsed[0];
-        return Promise.all(slice.map(ubs => UBS.findCreateFind({
+        return Promise.all(slice.filter(u => u.name).map(ubs => UBS.findCreateFind({
             'where': {
                 'name': ubs.name
             },
@@ -99,13 +102,34 @@ export const listUBSesAction = (request, response) =>
             [OP.lte]: first[1]
         }
 
+        filters.midpoint = [
+            (first[0] + second[0]) / 2,
+            (first[1] + second[1]) / 2
+        ]
+
         delete filters.boundaries;
     }
 
+    let attributes = ['id', 'name', 'address', 'city', 'geocode_lat', 'geocode_lon', 'phone'];
+    let order = [ 'id' ];
+    if (filters.midpoint) {
+        attributes.push([
+            `(3959 * ACOS(COS(RADIANS(${filters.midpoint[0]})) * COS(RADIANS(geocode_lat)) * 
+            COS(RADIANS(geocode_lon) - RADIANS(${filters.midpoint[1]})) + 
+            SIN(RADIANS(${filters.midpoint[0]})) * SIN(RADIANS(geocode_lat))))`,
+            'distance'
+        ]);
+        order = [ Sequelize.literal('distance') ];
+
+        delete filters.midpoint;
+    }
+
     UBS.findAndCount({
+        attributes,
         'limit': limit || 10, 
         'offset': offset || 0,
-        'where': filters
+        'where': filters,
+        order
     })
     .then(({ count, rows }) => {
         response.status(200).json({

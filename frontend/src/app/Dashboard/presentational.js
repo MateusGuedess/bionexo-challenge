@@ -30,22 +30,36 @@ const BoardPanel = props =>
 
 const BoardPanelUploader = props =>
 (
-    <form onSubmit={e => { props.syncCSV(props.googlemaps.syncFile); e.preventDefault(); }}>
-        <div className="col-12">
-            <label>CSV:</label>
-            <input type="file" className="form-control" onChange={props.selectCSVFile} />
+    <div>
+        <form onSubmit={e => { props.syncCSV(props.googlemaps.syncFile); e.preventDefault(); }}>
+            <div className="col-12">
+                <label>CSV:</label>
+                <input type="file" className="form-control" onChange={props.selectCSVFile} />
+            </div>
+            <div className="col-12 text-right" style={{ 'marginTop': '10px' }} title="Upload">
+                <button className="btn btn-primary" disabled={ props.googlemaps.syncEnabled ? false : true }>
+                    {
+                        props.googlemaps.isSyncing ?
+                            <i className="fa fa-circle-o-notch fa-spin"></i>
+                        :    
+                            <i className="fa fa-cloud-upload"></i>
+                    }
+                </button>
+            </div>
+        </form>
+
+        <div style={{ 'textAlign': 'center' }}>
+            { 
+                props.googlemaps.processRemaining > 0 ? 
+                    <span>
+                        <i className="fa fa-circle-o-notch fa-spin"></i> 
+                        To be processed: { props.googlemaps.processRemaining }
+                    </span>
+                :
+                    <span>Processed</span>
+            }
         </div>
-        <div className="col-12 text-right" style={{ 'marginTop': '10px' }} title="Upload">
-            <button className="btn btn-primary" disabled={ props.googlemaps.syncEnabled ? false : true }>
-                {
-                    props.googlemaps.isSyncing ?
-                        <i className="fa fa-circle-o-notch fa-spin"></i>
-                    :    
-                        <i className="fa fa-cloud-upload"></i>
-                }
-            </button>
-        </div>
-    </form>
+    </div>
 );
 
 
@@ -69,7 +83,7 @@ const BoardPanelList = props =>
 const BoardPanelListItem = ubs =>
 (
     <li>
-        <h5><small>{ ubs.id }</small> { ubs.name.length > 20 ? `${ubs.name.substr(0, 20)}...` : ubs.name }</h5>
+        <h5><small>{ ubs.id }</small> { ubs.name && ubs.name.length > 20 ? `${ubs.name.substr(0, 20)}...` : ubs.name }</h5>
         <p><b>Address</b> { ubs.address }. { ubs.city }</p>
         <p><b>Phone</b> { ubs.phone }</p>
     </li>

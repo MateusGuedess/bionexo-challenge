@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `bionexo`.`ubs` (
     `name` varchar(100) NOT NULL,
     `address` varchar(100) NOT NULL,
     `city` varchar(100) NOT NULL,
-    `phone` varchar(20) NOT NULL,
+    `phone` varchar(80) NOT NULL,
     `geocode_lat` decimal(10, 8) NOT NULL,
     `geocode_lon` decimal(11, 8) NOT NULL,
     `score_size` int(11) NOT NULL,
