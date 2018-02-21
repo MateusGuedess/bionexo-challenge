@@ -3,7 +3,7 @@ import * as fs from 'fs';
 
 exports.CSVToJson = (csvfile, customDictionary) =>
 {
-    if (/[a-zA-Z\s\/]+\.csv/.test(csvfile))
+    if (/[0-9a-zA-Z\s\/\-\_]+\.csv/.test(csvfile))
         return new Promise((resolve, reject) => {
             fs.readFile(
                 csvfile, { 'encoding': 'utf8' }, 
@@ -60,4 +60,16 @@ exports.CSVToJson = (csvfile, customDictionary) =>
 
             return attributes;
         });
+}
+
+
+exports.JSONToCSV = (list) =>
+{
+    if (list.length <= 0)
+        return "";
+
+    let dictionary = Object.keys(list[0]).join(',');
+    let values = list.map(item => Object.keys(item).map(field => item[field]).join(',')).join('\n');
+
+    return `${dictionary}\n${values}`;
 }
