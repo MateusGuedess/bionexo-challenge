@@ -49,8 +49,7 @@ export const processCSVs = async (request, response) =>
         .then(() => {
             fs.unlinkSync(`${process.cwd()}/storage/${files[0]}`);
 
-            if (!response.headersSent)
-                response.status(200).json({ 'status': true })
+            response.status(200).json({ 'status': true })
         });
     }
 

@@ -16,7 +16,7 @@ describe('Functional/v1/UBSControllersTest', function ()
 
     describe('Syncing UBSes', () => 
     {
-        it.only('Should upload a CSV file', done => 
+        it('Should upload a CSV file', done => 
         {
             RandomCSVFile(3)
                 .then(ubses => {
@@ -32,7 +32,7 @@ describe('Functional/v1/UBSControllersTest', function ()
                 .then(() => done());
         });
 
-        it.only('Should how much rest to end', done => 
+        it('Should how much rest to end', done => 
         {
             Request.get(`http://127.0.0.1:${PORT}/v1/ubs/sync/process`)
                 .then(httpResponse => {
@@ -44,7 +44,18 @@ describe('Functional/v1/UBSControllersTest', function ()
                 .then(() => done());
         });
 
-        it.only('Should process pendent CSV files', done => 
+        it('Should process pendent CSV files', done => 
+        {
+            Request.post(`http://127.0.0.1:${PORT}/v1/ubs/sync/process`, {}, {})
+                .then(httpResponse => {
+                    let content = httpResponse.getContent();
+                    expect(content.status).to.be.true;
+                    expect(httpResponse.getStatusCode()).to.be.equal(200);
+                })
+                .then(() => done());
+        });
+
+        it('Should return true in case there\'s nothing to process', done => 
         {
             Request.post(`http://127.0.0.1:${PORT}/v1/ubs/sync/process`, {}, {})
                 .then(httpResponse => {
@@ -136,7 +147,6 @@ describe('Functional/v1/UBSControllersTest', function ()
             })
             .then(httpResponse => {
                 let content = httpResponse.getContent();
-                console.log(content);
                 expect(content.status).to.be.true;
                 expect(content.data).to.have.property('results');
                 expect(content.data).to.have.property('total');
