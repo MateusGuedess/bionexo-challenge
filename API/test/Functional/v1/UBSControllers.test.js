@@ -101,6 +101,28 @@ describe('Functional/v1/UBSControllersTest', function ()
                 })
                 .then(() => done());
         });
+
+        it('Should filter UBS that are inside a rectangle in map', done => 
+        {
+            // Boundaries for Rio de Janeiro city
+            let boundaries = [                
+                [-22.705486408902388,-43.1268006830436],
+                [-23.124172766650062,-43.67199721624672]
+            ]
+
+            Request.get(`http://localhost:${PORT}/v1/ubs`, {
+                'filters': JSON.stringify({ boundaries })
+            })
+            .then(httpResponse => {
+                let content = httpResponse.getContent();
+                console.log(content);
+                expect(content.status).to.be.true;
+                expect(content.data).to.have.property('results');
+                expect(content.data).to.have.property('total');
+                expect(httpResponse.getStatusCode()).to.be.equal(200);
+            })
+            .then(() => done());
+        });
     });
 
     describe('Fetching UBS by ID', () => 

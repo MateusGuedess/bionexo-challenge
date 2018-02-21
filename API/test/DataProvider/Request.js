@@ -26,7 +26,7 @@ const parseUrl = (route, params) =>
     let parsedParams = "";
     if (params);
         parsedParams = Object.keys(params).map(param => {
-            return `${param}=${params[params]}`
+            return `${param}=${params[param]}`
         }).join('&');
 
     return route + (parsedParams.length > 0 ? `?${parsedParams}` : '');

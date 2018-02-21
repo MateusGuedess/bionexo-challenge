@@ -1,4 +1,5 @@
 import { Router } from 'express';  
+import Sequelize from 'sequelize';
 import { UBS } from './Models/UBS';
 import { CSVToJson } from './../../Services/ConverterService';
 
@@ -52,11 +53,35 @@ router.post('/ubs', (request, response) =>
 
 router.get('/ubs', (request, response) => 
 {
-    let { limit, offset } = request.query;
+    let { limit, offset, filters } = request.query,
+        OP = Sequelize.Op;
+
+    if (filters)
+        filters = JSON.parse(filters);
+
+    if (filters && filters.boundaries) {
+        let [
+            first,
+            second
+        ] = filters.boundaries;
+
+        filters['geocode_lat'] = {
+            [OP.gte] : second[0],
+            [OP.lte] : first[0]
+        }
+
+        filters['geocode_lon'] = {
+            [OP.gte]: second[1], 
+            [OP.lte]: first[1]
+        }
+
+        delete filters.boundaries;
+    }
 
     UBS.findAndCount({
         'limit': limit || 10, 
-        'offset': offset || 0
+        'offset': offset || 0,
+        'where': filters
     })
     .then(({ count, rows }) => {
         response.status(200).json({

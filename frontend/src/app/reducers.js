@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { dashboard } from './Dashboard/reducer';
 
 
 const main = (state, action) =>
@@ -12,5 +13,6 @@ const main = (state, action) =>
 }
 
 export const reducers = combineReducers({
-    main
+    main,
+    dashboard
 });
