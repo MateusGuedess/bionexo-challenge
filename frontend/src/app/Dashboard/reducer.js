@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { REQUEST_UBSES, RECEIVE_UBSES } from './actions';
+import { REQUEST_UBSES, RECEIVE_UBSES, SELECT_UBS_CSV_FILE, SYNCING_UBSES, SYNCED_UBSES } from './actions';
 
 
 const googlemaps = (state, action) =>
@@ -15,8 +15,30 @@ const googlemaps = (state, action) =>
                 'isFetching': false,
                 'data': action.data
             }
+        case SELECT_UBS_CSV_FILE:
+            return {
+                ...state,
+                'syncEnabled': true,
+                'syncFile': action.content
+            }
+        case SYNCING_UBSES:
+            return {
+                ...state,
+                'isSyncing': true
+            }
+        case SYNCED_UBSES:
+            return {
+                ...state,
+                'isSyncing': false,
+                'syncFile': null,
+                'syncEnabled': false
+            }
         default: 
             return {
+                'syncEnabled': false,
+                'syncFile': null,
+                'isSyncing': false,
+
                 'isFetching': false,
                 'data': {
                     'results': [], 'total': 0

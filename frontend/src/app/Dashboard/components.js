@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Dashboard as Component } from './presentational';
-import { fetchUBSes } from './actions';
+import { fetchUBSes, selectUBSCSVFile, syncUBSes } from './actions';
 
 
 export const mapStateToProps = state =>
@@ -13,7 +13,20 @@ export const mapStateToProps = state =>
 export const mapDispatchToProps = dispatch =>
 {
     return {
-        'fetchUBSByBoundaries': boundaries => dispatch(fetchUBSes(boundaries))
+        'fetchUBSByBoundaries': boundaries => dispatch(fetchUBSes(boundaries)),
+        
+        'selectCSVFile': e => {
+            let reader = new FileReader();
+
+            reader.onload = file =>
+            {
+                dispatch(selectUBSCSVFile(file.target.result));
+            }
+
+            reader.readAsText(e.target.files[0]);
+        },
+
+        'syncCSV': file => dispatch(syncUBSes(file))
     }
 }
 

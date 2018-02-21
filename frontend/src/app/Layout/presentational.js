@@ -1,5 +1,7 @@
 import React from 'react';
 import logo from './../../assets/images/logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import './../../assets/css/style.css';
 import { Dashboard } from '../Dashboard/components';
 

@@ -13,24 +13,60 @@ export const Dashboard = props => (
 
 const BoardPanel = props =>
 (
-    <div className="dashboard-board-panel">
-        <ul>
-            {
-                props.googlemaps.isFetching ?
-                <li style={{ 'textAlign': 'center' }}>... Loading ...</li>
-                    :
-                    props.googlemaps.data.total > 0 ?
-                        props.googlemaps.data.results.map((ubs, index) => 
-                            <ListItem key={ `ubs-list-${index}` } { ...ubs } />)   
-                        :
-                        <li style={{ 'textAlign': 'center' }}>No results found</li>
-            }
-        </ul>
+    <div className="dashboard-board-panel container">
+        <div className="row">
+            <div className="col-12">
+                <BoardPanelUploader { ...props } />
+            </div>
+        </div><hr />
+        <div className="row">
+            <div className="col-12" style={{ 'overflowY': 'scroll', 'height': '450px' }}>
+                <BoardPanelList { ...props } />
+            </div>
+        </div>
     </div>
 );
 
 
-const ListItem = ubs =>
+const BoardPanelUploader = props =>
+(
+    <form onSubmit={e => { props.syncCSV(props.googlemaps.syncFile); e.preventDefault(); }}>
+        <div className="col-12">
+            <label>CSV:</label>
+            <input type="file" className="form-control" onChange={props.selectCSVFile} />
+        </div>
+        <div className="col-12 text-right" style={{ 'marginTop': '10px' }} title="Upload">
+            <button className="btn btn-primary" disabled={ props.googlemaps.syncEnabled ? false : true }>
+                {
+                    props.googlemaps.isSyncing ?
+                        <i className="fa fa-circle-o-notch fa-spin"></i>
+                    :    
+                        <i className="fa fa-cloud-upload"></i>
+                }
+            </button>
+        </div>
+    </form>
+);
+
+
+const BoardPanelList = props =>
+(
+    <ul>
+        {
+            props.googlemaps.isFetching ?
+            <li style={{ 'textAlign': 'center' }}><i className="fa fa-spinner fa-spin"></i></li>
+                :
+                props.googlemaps.data.total > 0 ?
+                    props.googlemaps.data.results.map((ubs, index) => 
+                        <BoardPanelListItem key={ `ubs-list-${index}` } { ...ubs } />)   
+                    :
+                    <li style={{ 'textAlign': 'center' }}>No results found</li>
+        }
+    </ul>
+);
+
+
+const BoardPanelListItem = ubs =>
 (
     <li>
         <h5><small>{ ubs.id }</small> { ubs.name.length > 20 ? `${ubs.name.substr(0, 20)}...` : ubs.name }</h5>
