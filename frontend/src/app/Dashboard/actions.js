@@ -95,6 +95,7 @@ export const fetchUBSes = (boundaries) =>
         dispatch(requestUBSes());
         axios.get(`${API}/v1/ubs`, {
             'params': {
+                'limit': 50,
                 'filters': {
                     boundaries
                 }

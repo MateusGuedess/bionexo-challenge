@@ -112,7 +112,7 @@ export const listUBSesAction = (request, response) =>
 
     let attributes = ['id', 'name', 'address', 'city', 'geocode_lat', 'geocode_lon', 'phone'];
     let order = [ 'id' ];
-    if (filters.midpoint) {
+    if (filters && filters.midpoint) {
         attributes.push([
             `(3959 * ACOS(COS(RADIANS(${filters.midpoint[0]})) * COS(RADIANS(geocode_lat)) * 
             COS(RADIANS(geocode_lon) - RADIANS(${filters.midpoint[1]})) + 
@@ -126,8 +126,8 @@ export const listUBSesAction = (request, response) =>
 
     UBS.findAndCount({
         attributes,
-        'limit': limit || 10, 
-        'offset': offset || 0,
+        'limit': parseInt(limit || '10'), 
+        'offset': parseInt(offset || '0'),
         'where': filters,
         order
     })

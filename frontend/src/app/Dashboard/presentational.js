@@ -13,7 +13,7 @@ export const Dashboard = props => (
 
 export const BoardPanel = props =>
 (
-    <div className="dashboard-board-panel container">
+    <div className="dashboard-board-panel container col-sm-4 col-md-3 col-lg-2">
         <div className="row">
             <div className="col-12">
                 <BoardPanelUploader { ...props } />

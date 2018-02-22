@@ -11,7 +11,7 @@ RUN apk --no-cache add git curl openssh-client zlib \
     --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Copying Code
-RUN mkdir -p /var/bionexo-api
+RUN mkdir -p /var/bionexo-api/storage
 WORKDIR /var/bionexo-api
 COPY src src
 COPY test test
