@@ -11,6 +11,6 @@ before_install: cd $TEST_DIR && bash ./prepare_for_test.sh
 
 install: npm install
 
-before_script: ls && npm run build
+before_script: npm run build
 
 script: npm run test
