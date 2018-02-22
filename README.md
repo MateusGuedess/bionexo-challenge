@@ -14,4 +14,4 @@ Necessário instalar o [docker e docker-compose](https://www.docker.com) para ex
     docker-compose up
 ```
 
-Acesse a [interface web](http://localhost:8000) e navegue
+Acesse a [interface web](http://localhost:8000) e navegue.
